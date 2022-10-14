@@ -1,0 +1,29 @@
+\contentsline {chapter}{\numberline {1}DATA C100: Introduction to Modeling}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Motivation}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}A Demonstration: Simple Linear Regression}{3}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}What is a Regression Line?}{3}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Model Selection: Simple Linear Regression}{5}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Quantifying Errors: Loss Functions}{5}{subsection.1.2.3}%
+\contentsline {chapter}{\numberline {2}DATA C100: Constant Model}{8}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Defining the Constant Model}{8}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Experimenting Different Loss Functions}{8}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Exploring L2 Loss: MSE}{8}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Exploring L1 Loss: MAE}{9}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Summary of Loss Function Optimization}{10}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Transformation and Model Linearity}{10}{section.2.3}%
+\contentsline {chapter}{\numberline {3}DATA C100: Ordinary Least Squares}{12}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Multiple Linear Regression Model}{12}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Optimization of Model: Least Squares Algorithm}{13}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Loss Function}{13}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Optimization via Geometric Interpretation}{13}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Performance Factors}{14}{section.3.3}%
+\contentsline {chapter}{\numberline {4}DATA C100: Gradient Descent}{15}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Computational Minimization of Loss Function}{15}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Gradient Descent Algorithm}{15}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Interpretation of Gradients}{15}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Gradient Descent Mathematically}{15}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Stochastic Gradient Descent}{15}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Convexity}{15}{subsection.4.2.4}%
+\contentsline {chapter}{\numberline {5}DATA C100: Feature Engineering}{16}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Motivation}{16}{section.5.1}%
+\contentsline {section}{\numberline {5.2}One Hot Encoding}{16}{section.5.2}%
