@@ -35,26 +35,26 @@ When in a multivariable context, the loss function might take plural inputs and 
 Now, our task is focused on ``how to descend on the loss surface''. The entire algorithm that breifly leads us to descend off the loss surface is therefore known as the Gradient Descent Algorithm.
 
 \subsection{Interpretation of Gradients}
-This section is noted from MATH 53. It is not in scope for DATA C100. However, I think the reader can benefit from knowing what gradients are. \\
+This section is noted from MATH 53. It is not in scope for DATA C100. However, I think the reader can benefit from knowing what gradients are. I also consider writing a section for gradients if I have the fortune of addressing MATH 53 in this writing. \\
 Let us begin with the notion of Directional Derivatives:
 \begin{ln-define}{Directional Derivatives}{}
     We know how to compute the partial derivatives for a function $f(x, y)$ with respect to $x$ and $y$, which are respectively the rate of change of $f$ as we solely vary $x$ and solely vary $y$. \\
     The \textbf{directional derivative}, then, is the rate of change of $f$ when we let both variables $x$ and $y$ change. Mathematically, we would be able to characterize the direction of changing as a vector. \\
-    The rate of change of $f(x, y)$ along a unit vector $\vec{u} = <a, b>$ can thus be denoted as:
+    The rate of change of $f(x, y)$ along a unit vector $\vec{u} = \langle a, b \rangle$ can thus be denoted as:
     \[D_{\vec{u}}f(x, y) = \lim_{h \rightarrow 0} \frac{f(x + ah, y + bh) - f(x, y)}{h}\]
     In practical form, after a series of derivations:
-    \[D_{\vec{u}}f(x, y) = <f_x (x, y), f_y (x, y)> \cdot \vec{u}\]
+    \[D_{\vec{u}}f(x, y) = \langle f_x (x, y), f_y (x, y) \rangle \cdot \vec{u}\]
 \end{ln-define}
 Recall that:
 \[\cos(\theta_{\vec{u}, \vec{v}}) = \frac{\vec{u} \cdot \vec{v}}{|\vec{u}| |\vec{v}|}\]
-Therefore, the directional derivative is maximized when the direction at which we change $x$ and $y$ is exactly the vector $<f_x (x, y), f_y (x, y)>$. \\
+Therefore, the directional derivative is maximized when the direction at which we change $x$ and $y$ is exactly the vector $\langle f_x (x, y), f_y (x, y) \rangle$. \\
 This means the direction provides the most positive change (provides the maximal rate of change) towards $f$, if we were to travel in that direction. For convenience and mathematical property, let us name this great observation as follows:
 \begin{ln-define}{Gradient}{}
     The \textbf{gradient} of a function $f(x_1, \cdots, x_n)$ is the vector:
     \[\nabla f = \begin{bmatrix} \pdv{f}{x_1} \\ \cdots \\ \pdv{f}{x_n} \end{bmatrix}\]
     Where $\nabla f(x_1, \cdots, x_n)$ notes the direction of greatest ascent (greatest rate of value increase) along the function $f$ from $(x_1, \cdots, x_n)$
 \end{ln-define}
-In other words, the opposite direction of the gradient is the direction of greatest descent. We can thus come up with the following iterative procedure for descending along a loss surface of $f(x, y)$:
+This brings an implication: the opposite direction of the gradient is the direction of greatest descent. We can thus come up with the following iterative procedure for descending along a loss surface of $f(x, y)$:
 \setbox\codebox=\hbox{
     \begin{lstlisting}
     initial_guess = ? #an array of parameters for initial guess
@@ -67,6 +67,7 @@ In other words, the opposite direction of the gradient is the direction of great
 \begin{ln-code}{Sketch of Gradient Descent Algorithm}{}
     \usebox\codebox
 \end{ln-code}
+As a side note of interest, COMPSCI 61A used to cover a two-dimensional version of gradient descent to discuss the work of `iteration' in computer science.
 
 \subsection{Improving the Gradient Descent Sketch}
 We have a few problems left. \\
@@ -77,7 +78,7 @@ First of all:
 For example:
 \begin{ln-fig}[sidebyside]{Divergence of Gradient Descent}{}
     \begin{center}
-        \includegraphics[scale=0.3]{figs/ln04/grad-descent-diverge.png}
+        \includegraphics[scale=0.25]{figs/ln04/grad-descent-diverge.png}
     \end{center}
     \tcblower
     As you may see, because the gradient's magnitude is too big, we ended up going away from the local minima. \\
@@ -96,8 +97,8 @@ Therefore, we would usually need to try learning steps by increasing or decreasi
     \end{lstlisting}
 }
 \begin{ln-code}{Gradient Descent Algorithm}{}
-    \usebox\codebox
-    Mathematically Expressed as a state-transition system (borrowing the work of EECS 16A):
+    \usebox\codebox \\
+    Mathematically expressed as a state-transition system (borrowing the insights and works of EECS 16A):
     \[\vec{\theta}[t + 1] = \vec{\theta}[t] - a \nabla L(\vec{\theta}, x_1, \cdots, x_n)\]
 \end{ln-code}
 

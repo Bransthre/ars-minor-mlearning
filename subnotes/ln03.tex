@@ -13,12 +13,13 @@ Let us attempt to vectorize the above equation. Suppose, we rewrite the above eq
     \begin{bmatrix} \theta_0 \\ \vdots \\ \theta_p \end{bmatrix}
 \]
 Then, we have successfully written the above equation in a matrix-vector multiplication form. \\
-The anatomy of each term in the above row vector, $x_k^{(i)}$, is as follows:
+
+Now, since there have been a lot of conventions across machine learning on how to notate vectors and features, I will be unifying my own version of conventions in this model and tailor it to the more common notations. \\
+My anatomy of each term in the above row vector, $x_k^{(i)}$, is as follows:
 \begin{bindenum}
     \item $x^{(i)}$ stands for the $i^{th}$ data point inside the dataset.
     \item $x_k$ stands for the $k^{th}$ feature inside the dataset.
     \item Therefore, $x_k^{(i)}$ is the $k^{th}$ feature of $i^{th}$ data point inside the dataset.
-    \item Among all columns, we appended another column of ones on the left of row vector to account for the need of intercept in regression line.
 \end{bindenum}
 To vectorize this operation across numerous datapoints in the dataset, we may then formulate this model in terms of matrix-vector multiplication as follows:
 \[
@@ -30,7 +31,8 @@ To vectorize this operation across numerous datapoints in the dataset, we may th
     \end{bmatrix}
     \begin{bmatrix} \theta_0 \\ \vdots \\ \theta_p \end{bmatrix}
 \]
-And each term can then be respectively abbreviated into what is shown below:
+The column of $1$ exists for intercepts, and is important for the mathematical advantage it brings. We will discuss this later. \\
+Take notes that each term can then be respectively abbreviated into what is shown below:
 \[\Y = \X \theta\]
 Where we specifically name the matrix $\X$ containing the datapoints as the \textbf{design matrix}.
 
@@ -68,9 +70,9 @@ Either way, we will be introduced to a simplified situation:
     \[R(\theta) = \frac{1}{n} {||\Y - \X \theta||}_2^2\]
     We require that
     \[\X^T (\Y - \X \hat{\theta}) = 0\]
-    Such that the residual is orthogonal to $span(\X)$.
+    Such that the residual $(\Y - \X \hat{\theta})$ is orthogonal to $span(\X)$.
 \end{quote}
-Let us review its solution from EECS 16AB (or MATH 54, MATH 110):
+Let us review its solution from EECS 16A (or MATH 54, MATH 110):
 \begin{ln-derive}{Least Squares Algorithm}{}
     \begin{align*}
         \X^T (\Y - \X \hat{\theta}) &= 0 \\
@@ -78,8 +80,31 @@ Let us review its solution from EECS 16AB (or MATH 54, MATH 110):
         \hat{\theta} &= {(\X^T\X)}^{-1} \X^T\Y
     \end{align*}
 \end{ln-derive}
+Let's use calculus to see if the geometrical solution does indeed yield an optimal parameter:
+\begin{ln-derive}{Least Squares Algorithm via Calculus}{}
+    Remember that:
+    \[
+        MSE(\theta) = \frac{1}{n} \sum_{i = 1}^n {(y_i - \theta_0 - \theta_1 x_{i, 1} - \cdots - \theta_p x_{i, p})}^2
+    \]
+    Where, let us consider that $x_0 = 1$ exists as a part of the datapoints (row vectors), and that we have parameters from $\theta_0$ to $\theta_p$, forming a vector of $p + 1$ parameters. \\
+    Then, let us differentiate such function with respect to some parameter $\theta_j$:
+    \begin{align*}
+        \pdv{MSE}{\theta_j}(\theta)
+        &= \frac{1}{n} \sum_{i = 1}^n 2 \times -x_{i, j} \times (y_i - \theta_0 - \theta_1 x_{i, 1} - \cdots - \theta_p x_{i, p}) \\
+        &= \frac{-2}{n} \sum_{i = 1}^n x_{i, j}(y_i - \theta_0 - \theta_1 x_{i, 1} - \cdots - \theta_p x_{i, p}) \\
+    \end{align*}
+    Which, if we optimize by setting this partial derivative to $0$, will offer us the equation that:
+    \[
+        \sum_{i = 1}^n x_{i, j}(y_i - \theta_0 - \theta_1 x_{i, 1} - \cdots - \theta_p x_{i, p}) = 0
+    \]
+    And in turn, tells that:
+    \[
+        \X_j^T (Y - \X^T \theta) = 0
+    \]
+    Therefore, differentiating the MSE loss function by some $j^{th}$ parameter provides us the normal equation by that parameter.
+\end{ln-derive}
 The equation above that shows the optimal parameters is known as the \textbf{Normal Equation}. \\
-This normal equation would only be useful when $\X^T \X$ is invertible. Determining whether $\X^T \X$ is invertible is not as difficult as it sounds, since $N(A^T A) = N(A)$. I will not showcase this proof here. \\
+This normal equation would only be useful when $\X^T \X$ is invertible. Determining whether $\X^T \X$ is invertible is not as difficult as it sounds, since $N(A^T A) = N(A)$. Proof will not be showcased here. \\
 Beyond the scope of DATA C100, we should also see some remedy for such situations when attempting to solve this exact optimization problem and working with a non-invertible design matrix. It is also not in the scope of this note yet.
 
 \section{Performance Factors}

@@ -13,6 +13,7 @@ For now, let us borrow a view from some two-parameter model under the gradient d
 Now we may ask, how does the radius of this green circle tie in with reducing the complexity of a model. \\
 When the green circle is small, we are limited into a less complex model, because the values of each parameters are more restrained. Under the extreme circumstance our green circle is essentially a point, the model would then output $0$ for any possible predictor variable, as the output prediction of model is bound within the green circle. \\
 Here, we may also notice that $\theta_0$ is not involved in the model despite being involved in the multiple linear regression line. This would imply that reducing the green circle into a point produces a constant model that merely returns $\theta_0$ as its prediction, which as discussed before, is optimally the mean of every observed value. \\
+
 On the other hand, the larger the green circle's radius is the closer our model behaves to the original model. This allows for more complexity than the previously mentioned constant model. \\
 Noticeably then, overly small and overly large radius for the restraining circle each lead to unideal consequences.
 \begin{bindenum}
@@ -20,7 +21,9 @@ Noticeably then, overly small and overly large radius for the restraining circle
     \item Large radius leads to the original model of regression, which allows for large variance and in exchange brings high validation error with low training error.
 \end{bindenum}
 
-However, the nature of variables can lead to their parameters being naturally large. For example, variables that span between $1e-5$ and $1e-3$, perhaps due to unit or measurement, will naturally have larger parameters to help signify their significance in the regression model. \\
+
+However, the nature of variables can lead to their parameters being naturally large. \\
+For example, variables that span between $1e-5$ and $1e-3$, perhaps due to unit or measurement, will naturally have larger parameters to help signify their significance in the regression model. \\
 To prevent such issues, we should attempt to standardize each data by replacing every data entry with its z-score within its variable category:
 \[z_k = \frac{x_k - \mu_k}{\sigma_k}\]
 (This is also how the course COMPSCI 70 evaluate each students' performance on an exam, due to its average frequently being around 50\%).
@@ -61,7 +64,8 @@ The reason for which this class is named ``Ridge'' is because the OLS model with
 \begin{ln-define}{Ridge Regression Model}{}
     In a ridge regression model, we find parameters that minimize the following empirical risk as optimal:
     \[R(\theta) = \frac{1}{n}\sum_{i = 1}^n {{(y_i - (\theta_0 + \sum_{j = 1}^d \theta_j \Phi_{i, j}))}^2} + \alpha \sum_{k = 1}^d \theta_k^2\]
-    The optimal solution is, for linear algebra that we will not discuss until EECS 127:
+    And the multiple of parameter vector's norm at the end of right hand side will offer penalization for parameters whose values are too large. \\
+    The optimal solution is, for linear algebra that we will not discuss until EECS 127/189:
     \[\hat{\theta}_{ridge} = {(\X^T \X + n \alpha I)}^{-1} \X^T \Y\]
 \end{ln-define}
 
@@ -74,6 +78,7 @@ In this scheme, we replace the circle with a cube:
     \tcblower
     Our empirical risk thus becomes:
     \[R(\theta) = \frac{1}{n}\sum_{i = 1}^n {{(y_i - (\theta_0 + \sum_{j = 1}^d \theta_j \Phi_{i, j}))}^2} + \alpha \sum_{k = 1}^d |\theta_k|\]
+    Which also involves a penalization term at the end of right hand side.
 \end{ln-fig}
 In the coursework technology, we may perform L1 regularization on OLS, otherwise known as LASSO Regularization, as noted below:
 \setbox\codebox=\hbox{
@@ -100,3 +105,4 @@ In the coursework technology, we may perform L1 regularization on OLS, otherwise
         LASSO & $\hat{\Y} = \X \theta$ & L2 & L1 & $\frac{1}{n}{||\Y - \X \theta||}_2^2 + \lambda \sum_{j = 1}^d |\theta_j|$ & no closed form
     \end{tabular}
 \end{center}
+While it destines the regularized models will have a higher empirical risk than OLS in general, regularization will effectively inhibit overfitting and offer a better in-real-life performance for our model, which is much better than only having a good performance on the training set.

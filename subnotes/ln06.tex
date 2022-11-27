@@ -2,7 +2,8 @@
 
 \section{Variance and Training Error}
 When attempting to form a model for predicting new datapoints, say linear regression, we often have some way to find optimal parameters. \\
-The process of finding these parameters that lead to the best predictions possible is known as \textbf{training}. However, even the model itself would then have some errors when compared to the original data. This error is known as the \textbf{training error}. \\
+The process of finding these parameters that lead to the best predictions possible is known as \textbf{training}, and the dataset used for this process is known as the \textbf{training set}.\\
+However, even the model itself would then have some errors when compared to the original data. This error is known as the \textbf{training error}. \\
 To reduce training error, we might sometimes make the model more complex, so it covers more ground by using more information from a data entry and can end up making better predictions. The sensitivity of our model towards its fata is known as \textbf{variance}. \\
 Of course, we can try to make a model entirely correct when applied onto the data we train it on. For an $n$-point dataset, we can use a $n-1$ degree polynomial that passes through all $n$ points of the dataset. At that point, the model has high variance, high complexity, and virtually $0$ training error. \\
 But then, is this model use-able on other real-world data whose behavior deviates from the dataset?
@@ -15,12 +16,26 @@ Machine Learning scientists have developed the following famous diagram to discu
 \end{ln-fig}
 
 When a model \textbf{overfits}, it refers to the phenomenon discussed above: the model is aggressively tailored towards the dataset and fails to predict data outside the dataset it's trained on. \\
-In this case, while we do attain a zero MSE, the model is useless outside the dataset we have trained on.
+Allow me to quote an insight from some other articles I've written, on a puppy vs. bagel classifier model, to address why is not testing the model after training a bad idea:
+\begin{quote}
+    This is because if a model uses too much data from training set, then its formula will be extremely tailored to the reality that training set captures.
+    However, we have no way to decide if training set provides a good image on how reality looks like.
+    
+    For example, if my training set only has pictures of blue puppies and blue bagels, my test set is responsible of telling me there exist many puppies and bagels that are not blue.
+    
+    If a model only follows its training set and behaves excessively inaccurate on the testing set and real-world data, we call the model as “overfitting” the training set.
+    In other words, the model overly fits the training set and lives in the world shaped by that training set, unaware of what the truth is regarding the distinction of puppies and bagels.
+    
+    Therefore, a partition of the original dataset still needs to be used for testing, and another portion used for training. A popular choice of train-test split is 7:3.
+\end{quote}
+In this case, even if we do attain a zero MSE, the model is useless outside the dataset we have trained on.
 
 \section{Validation}
 Scientists then came up with an idea: what if we attempt to validate our model using extra data point? \\
 The first brief method that came into mind is a ``holdout method'', where for a datset of 100 points, we use 70 of 100 on training the data, which we call the \textbf{training set} (as in the dataset on which we train the model), and hold 30 of it out. \\
-After training the dataset on the 70 data points, we test our model on the rest 30 which we have not trained on. This set of held out data is often called the \textbf{validation set} (or alternatively, development set, ``dev set''). \\
+Once again, this 7:3 ratio is just a common convention. The default holdout ratio for sklearn is 3:1, and some other practitions using 4:1 also exist. \\
+
+So after training the dataset on the 70 data points, we test our model on the rest 30 which we have not trained on. This set of held out data is often called the \textbf{validation set} (or alternatively, development set, ``dev set''). \\
 This allows us to validate our model by seeing how it behaves when predicting data outside the dataset we trained the model on. For the technology in DATA C100, its computation is as follows:
 \setbox\codebox=\hbox{
     \begin{lstlisting}
@@ -40,6 +55,7 @@ Ideally, we then arrive at what the following diagram describes:
 where we attempt to use a model whose complexity allows the minimum training error and validation error.
 
 In this case, the degree of predictor variables, which form a polynomial for the regression line, is what we can blame and adjust for the deficiency of our model in overfitting. 
+
 In machine learning, these variables that influence the learning process as outlined by the above tradeoff diagram is called \textbf{hyperparameter}. This can also involve, for example, the ratio of number of data in training set to that in validation set.
 
 There is also an inherent problem with this hold-out idea, which we will address in the following section.
