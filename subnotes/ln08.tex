@@ -1,0 +1,146 @@
+\chapter{DATA C100: A Survey on Random Variables}
+
+\section{Defining Random Variables and Distributions}
+In data science and statistics, we frequently discuss random experiments and random results: they are indeed some variable, but with a randomness in their values. We then specify these variables under the terminology:
+\begin{ln-define}{Random Variable}{}
+    A \textbf{random variable} is a numerical function for some random result. Its value on any given draw is called a realization.
+    Each random variable is defined with a domain and a range:
+    \begin{bindenum}
+        \item The \textbf{domain} of a random variable is all possible random samples from our random processes.
+        \item The \textbf{range} of a random variable depends on what the variable measures, but can be either discrete or continuous.
+    \end{bindenum}
+\end{ln-define}
+For example, let $X$ be a random variable denoting the sum of two fair dice rolls. Then, this $X$ is discrete, and each value of $X$ would have some different probability. \\
+Furthermore, the domain of this random variable would be all possible two-dice roll combinations, while the range would be the set $\{2, \dots, 12\}$.
+
+These random variables can often be described under some larger framework. Many random variables come with or measure very similar properties, say ``the number of success in a binary experiment'' or ``the time it takes to perform some task for the first time''. \\
+It would be convenient to provide frameworks for these general descriptions. This is what we refer to as \textbf{distribution}:
+\begin{ln-define}{Distribution}{}
+    The distribution of a random variable $X$ is a description of how its total probability is split over the range of $X$. \\
+    In this case, the distribution defines a random variable, by designating for all $x \in range(X)$ on the value $\P[X = x]$.
+\end{ln-define}
+While many distributions will eventually be introduced in the COMPSCI 70 component for these notes, it would serve utility as well to introduce a list of distributions as follows:
+\begin{bindenum}
+    \item {
+        Bernoulli(p), the Bernoulli distribution, also known as an indicator random variable:
+        \[
+            \begin{cases}
+                \P[X = 1] = p \\
+                \P[X = 0] = (1 - p)
+            \end{cases}
+        \]
+    }
+    \item {
+        Binomial(n, p), the Binomial distribution, measures the number of Bernoulli trials with value $1$ out of $n$ trials performed.
+    }
+    \item {
+        Uniform distribution, where probability of each value of range is equal; for example, the probability of rolling each possible value on a fair six-faced dice.
+    }
+    \item {
+        Normal distribution, a Gaussian distribution used widely for its convenience and properties. Will introduce and discuss in depth at COMPSCI 70.
+    }
+\end{bindenum}
+
+\section{Describing Random Variables: Expectation and Variance}
+To define a random variable, we can use histograms and distributions. To summarize and describe a random variable, we discuss the expectation and variance of a random variable, both metrics we will define and discuss in this section.
+
+Each distribution of the random variable has some center of mass, which otherwise is famously called the \textit{mean}. The formal terminology for the centroid of distribution is \textbf{expectation}. \\
+\begin{ln-define}{Expectation}{}
+    The expectation of a random variable $X$ is the weighted average of values of $X$, using the probabilities of values as weights. \\
+    By definition, it is computed as:
+    \[\E[X] = \sum_{x \in range(X)} x \P[X = x]\]
+\end{ln-define}
+Eventually, we will learn that expectation is the long run average of some random variable.
+
+Meanwhile, we can also summarize the variability and the spread of a random variable via this metric called \textbf{variance},
+\begin{ln-define}{Variance}{}
+    The variance of a random variable $X$ is the expected squared deviation from the expectation of $X$. \\
+    While this invokes the prior knowledge:
+    \[\sigma = SD(X) = \sqrt{Var(X)}\]
+    It presents that the variance of a random variable would be computationally defined as:
+    \[Var(X) = \E[{(X - \E[X])}^2]\]
+    which can also be simplified into:
+    \[Var(X) = \E[X^2] - {\E[X]}^2\]
+    via some derivation we show in COMPSCI 70 instead.
+\end{ln-define}
+The main usage of variance, as well as standard deviation due to their relevance, would be quantifying chance error in situations that require this measurement. For example, in a hypothesis test.
+
+\section{Multiple Random Variables}
+There are functions that use multiple random variables at once; however, these random variables' values can have underlying connections. To characterize these situations that make computation inconvenient, let us consider the following relationship between random variables. \\
+Suppose we have random variables $X$ and $Y$, then their relationship may be described by one of the following:
+\begin{bindenum}
+    \item [1.] \textbf{Equal}: $X$ and $Y$ are equal if $X(s) = Y(s)$ for every sample $s$. This is otherwise expressed as $X = Y$.
+    \item [2.] \textbf{Identically Distributed}: $X$ and $Y$ are identifically distributed if they have the same distribution. Identical distribution is implied by equivalence.
+    \item [3.] \textbf{IID}: $X$ and $Y$ are independent and identially distributed if $X$ and $Y$ are identially distributed and are independent of each other.
+\end{bindenum}
+There may also be dependent random variables, where the value of $X$ influence the distribution of $Y$ as some conditional probability. However, that is not in the concern of DATA C100.
+
+Now that we have clarified relationships involving multiple random variables, let us explore how the expectations and variances of related random variables behave:
+\begin{ln-define}{Properties of Expectation}{}
+    There are the following useful properties for expectation:
+    \begin{bindenum}
+        \item $\E[aX + b] = a\E[X] + b$
+        \item $\E[X + Y] = \E[X] + \E[Y]$
+        \item For a non-linear $g$, in general, $\E[g(X)] \neq g(\E[X])$.
+    \end{bindenum}
+\end{ln-define}
+And following that,
+\begin{ln-define}{Properties of Variance}{}
+    There are the following useful properties for variance:
+    \begin{bindenum}
+        \item $Var(aX + b) = a^2 Var(X)$
+        \item $Var(X_1 + X_2) = Var(X_1) + Var(X_2) + 2Cov(X, Y)$
+    \end{bindenum}
+    \begin{ln-define}{Covariance}{}
+        The covariance of random variables $X$ and $Y$ measures the linear correlation between $X$ and $Y$, mathematically denoted as:
+        \[Cov(X, Y) = \E[(X - \E[X])(Y - \E[Y])]\]
+        where uncorrelated $X$ and $Y$ have zero correlation and covariance. \\
+        It is important to note that independent random variables are uncorrelated of each other, but uncorrelated random variables can remain dependent. \\
+        An interesting case for the above description appears in COMPSCI 70.
+    \end{ln-define}
+\end{ln-define}
+
+\section{Bernoulli and Binomial Random Variables}
+By prior statements, we may notice that the properties of binomial random variables is tightly connected to the properties of Bernoulli random variables. \\
+In that case, it is more logical to introduce Beroulli random variables first:
+
+\subsection{Bernoulli Random Variables}
+Let us review the definition of Bernoulli random variables:
+\begin{ln-define}{Bernoulli Random Variable}{}
+    A random variable $X$ whose distribution follows some Bernoulli distribution $Bernoulli(p)$ is a Bernoulli random variable. \\
+    In a Bernoulli distribution characterized by parameter $p$: $Bernoulli(p)$,
+    \[
+        \begin{cases}
+            \P[X = 1] = p \\
+            \P[X = 0] = 1 - p
+        \end{cases}
+    \]
+\end{ln-define}
+We may then calculate its expectation to be:
+\[\E[X] = 1 \cdot p + 0 \cdot (1 - p) = p\]
+And its variance to then be:
+\begin{align*}
+    Var(X) &= \E[X^2] - {\E[X]}^2 \\
+    &= (1^2 \cdot p + 0^2 \cdot (1 - p)) - {(1 \cdot p + 0 \cdot (1 - p))}^2 \\
+    &= p - p^2 = p(1 - p)
+\end{align*}
+
+\subsection{Binomial Random Variables}
+Having performed some analysis on the Bernoulli distribution, let's now introduce Binomial distribution:
+\begin{ln-define}{Binomial Random Variables}
+    A random variable $X$ is binomial if its distribution is some binomial distribution $Binomial(n, p)$. \\
+    A binomial random variable measures the number of value-$1$ Bernoulli trials with success probability $p$ out of all $n$ such Bernoulli trials. \\
+    The distribution is defined as:
+    \[
+        \P[X = k] = \binom{n}{k} p^k {(1 - p)}^{(n - k)}
+    \]
+\end{ln-define}
+We may then calculate its expectation to be:
+\[\E[X] = np\]
+for the variable $X$ is essentially a sum of $n$ IID Bernoulli random variables $X_i$
+And its variance in turn:
+\begin{align*}
+    Var(X) &= Var(X_1 + \cdots + X_n) \\
+    &= Var(X_1) + \cdots + Var(X_n) \\
+    &= np(1 - p)
+\end{align*}
